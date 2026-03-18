@@ -197,7 +197,7 @@ const poseNameDict = {
 // 🌟 新增：从后端拉取数据的专属函数
 const fetchHistory = async () => {
   try {
-    const res = await fetch('http://localhost:3000/api/history');
+    const res = await fetch('https://rehab-backend-jmc3.onrender.com/api/history');
     historyRecords.value = await res.json();
   } catch (error) {
     console.error("连接服务器失败，请确保 server.js 已启动！", error);
@@ -214,7 +214,7 @@ const selectAll = computed({
 // 🌟 修改：发请求给后端删除单条
 const deleteRecord = async (id) => {
   if (window.confirm("确定要删除这条训练记录吗？")) {
-    await fetch(`http://localhost:3000/api/history/${id}`, { method: 'DELETE' });
+    await fetch(`https://rehab-backend-jmc3.onrender.com/api/history/${id}`, { method: 'DELETE' });
     selectedRecords.value = selectedRecords.value.filter(selectedId => selectedId !== id);
     await fetchHistory(); // 删完重新向服务器要最新数据
   }
@@ -223,7 +223,7 @@ const deleteRecord = async (id) => {
 // 🌟 修改：发请求给后端批量删除
 const deleteSelected = async () => {
   if (window.confirm(`确定要删除选中的 ${selectedRecords.value.length} 条记录吗？`)) {
-    await fetch('http://localhost:3000/api/history/batch', {
+    await fetch('https://rehab-backend-jmc3.onrender.com/api/history/batch', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ids: selectedRecords.value })
@@ -236,7 +236,7 @@ const deleteSelected = async () => {
 // 🌟 修改：发请求给后端一键清空
 const deleteAll = async () => {
   if (window.confirm("🚨 警告：确定要清空所有训练记录吗？此操作不可恢复！")) {
-    await fetch('http://localhost:3000/api/history/all', { method: 'DELETE' });
+    await fetch('https://rehab-backend-jmc3.onrender.com/api/history/all', { method: 'DELETE' });
     selectedRecords.value = [];
     await fetchHistory();
   }
@@ -453,7 +453,7 @@ const stopCamera = () => {
     };
     
     // 🌟 将新记录发往云端，保存成功后再拉取最新列表
-    fetch('http://localhost:3000/api/history', {
+    fetch('https://rehab-backend-jmc3.onrender.com/api/history', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newRecord)
